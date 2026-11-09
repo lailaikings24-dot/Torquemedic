@@ -136,7 +136,6 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
                 peripheral.setNotifyValue(true, for: characteristic)
             }
         }
-        // Characteristics may arrive service-by-service; report ready once one usable output path is found.
         if writable != nil {
             ready = true
             connectCall?.resolve(["connected": true, "transport": "ble", "address": peripheral.identifier.uuidString])
