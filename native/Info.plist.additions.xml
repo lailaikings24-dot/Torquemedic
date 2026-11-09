@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dict>
+    <!-- Merge these keys into the app's existing Info.plist. -->
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>TorqueMedic uses Bluetooth to find and communicate with your OBD-II adapter.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>TorqueMedic uses Bluetooth to communicate with your OBD-II adapter.</string>
+</dict>
