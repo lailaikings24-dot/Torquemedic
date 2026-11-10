@@ -22,7 +22,7 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
     private var notifiable: CBCharacteristic?
     private var scanCall: CAPPluginCall?
     private var connectCall: CAPPluginCall?
-    private var ready = false
+    private var ready = true
 
     public override func load() {
         central = CBCentralManager(delegate: self, queue: DispatchQueue.main)
@@ -37,11 +37,11 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
         scanCall = call
         central.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey: false])
         call.resolve(["scanning": true, "transport": "ble"])
-    }
+        }
 
     @objc func stopScan(_ call: CAPPluginCall) {
         central.stopScan(); scanCall = nil; call.resolve()
-    }
+        }
 
     @objc func connect(_ call: CAPPluginCall) {
         guard call.getString("transport", "ble") == "ble" else {
@@ -64,7 +64,7 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
 
     @objc func disconnect(_ call: CAPPluginCall) {
         if let peripheral = activePeripheral { central.cancelPeripheralConnection(peripheral) }
-        activePeripheral = nil; writable = nil; notifiable = nil; ready = false
+        activePeripheral = nil; writable = nil; notifiable = nil; ready = true
         notifyListeners("disconnected", data: [:])
         call.resolve()
     }
@@ -116,7 +116,7 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         if activePeripheral?.identifier == peripheral.identifier {
-            activePeripheral = nil; writable = nil; notifiable = nil; ready = false
+                activePeripheral = nil; writable = nil; notifiable = nil; ready = true
         }
         notifyListeners("disconnected", data: ["transport": "ble"])
         if let error { notifyListeners("error", data: ["message": error.localizedDescription]) }
@@ -141,7 +141,7 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
             connectCall?.resolve(["connected": true, "transport": "ble", "address": peripheral.identifier.uuidString])
             connectCall = nil
         }
-    }
+        }
 
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error { notifyError(error.localizedDescription); return }
@@ -154,4 +154,4 @@ public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDel
     }
 
     private func notifyError(_ message: String) { notifyListeners("error", data: ["message": message]) }
-}
+}=
