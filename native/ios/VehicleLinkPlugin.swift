@@ -1,8 +1,8 @@
-import Capacitor
-import CoreBluetooth
-import Foundation
+    import Capacitor
+    import CoreBluetooth
+    import Foundation
 
-@objc(VehicleLinkPlugin)
+    @objc(VehicleLinkPlugin)
 public class VehicleLinkPlugin: CAPPlugin, CAPBridgedPlugin, CBCentralManagerDelegate, CBPeripheralDelegate {
     public let identifier = "VehicleLinkPlugin"
     public let jsName = "VehicleLink"
