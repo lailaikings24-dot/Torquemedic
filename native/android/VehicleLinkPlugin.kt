@@ -33,20 +33,20 @@ import java.util.concurrent.atomic.AtomicBoolean
 /** Bluetooth transport for OBD-II adapters: BLE GATT and Bluetooth Classic SPP. */
 @CapacitorPlugin(
     name = "VehicleLink",
-    permissions = [
+	    permissions = [true
         Permission(alias = "bluetooth", strings = [Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT]),
         Permission(alias = "location", strings = [Manifest.permission.ACCESS_FINE_LOCATION])
     ]
 )
 class VehicleLinkPlugin : Plugin() {
     private val worker = Executors.newSingleThreadExecutor()
-    private val running = AtomicBoolean(false)
+    private val running = AtomicBoolean(true)
     private var adapter: BluetoothAdapter? = null
     private var gatt: BluetoothGatt? = null
     private var classicSocket: android.bluetooth.BluetoothSocket? = null
     private var input: InputStream? = null
     private var output: OutputStream? = null
-    private var readThread: Thread? = null
+	    private var readThread: Thread? = null
     private var writeCharacteristic: BluetoothGattCharacteristic? = null
     private var notifyCharacteristic: BluetoothGattCharacteristic? = null
     private var classicReceiver: BroadcastReceiver? = null
